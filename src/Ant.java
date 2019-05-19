@@ -21,4 +21,12 @@ public class Ant {
             this.weights[i]=weights[i];
         }
     }
+
+    @Override
+    public String toString(){
+        if (id % 2 != 0)
+            return ("id: " + id + ", X: " + xCoordinate + ", Y: " + yCoordinate + ", W: " + weight);
+        else
+            return ("id: " + id + ", X: " + xCoordinate + ", Y: " + yCoordinate + ", W: " + weights[0] + " " + weights[1] +  " " + weights[2] +  " " + weights[3] +  " " + weights[4]);
+    }
 }
