@@ -25,6 +25,10 @@ public class Ant {
         }
     }
 
+    public int getId() {
+        return id;
+    }
+
     public int getxCoordinate() {
         return xCoordinate;
     }
@@ -35,6 +39,15 @@ public class Ant {
 
     public int getzCoordinate() {
         return zCoordinate;
+    }
+
+    @Override
+    public boolean equals(Object other){
+        Ant otherAnt = (Ant) other;
+        if (this.xCoordinate == otherAnt.getxCoordinate() && this.yCoordinate == otherAnt.getyCoordinate())
+            return true;
+        else
+            return false;
     }
 
     @Override

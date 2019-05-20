@@ -4,7 +4,7 @@ import java.util.TreeSet;
 public class DelaunayTriangulation{
 
     public TreeSet getEdges(ArrayList<Ant> Ants){
-        TreeSet result = new TreeSet();
+        TreeSet<GraphEdge> result = new TreeSet<GraphEdge>();
 
         if(Ants.size() == 2){
             result.add(new GraphEdge(Ants.get(0), Ants.get(1)));

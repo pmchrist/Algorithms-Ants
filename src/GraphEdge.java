@@ -23,7 +23,7 @@ public class GraphEdge implements Comparable<GraphEdge>{
 
     @Override
     public String toString(){
-        return ""+weight;
+        return "" + point1.getId() + " " + point2.getId();
     }
 
     @Override
