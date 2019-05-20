@@ -2,7 +2,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 public class Main {
 
@@ -35,6 +37,14 @@ public class Main {
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        DelaunayTriangulation temp = new DelaunayTriangulation();
+        TreeSet tempSet = temp.getEdges(Ants);
+
+        Iterator<GraphEdge> it = tempSet.iterator();
+        while(it.hasNext() ) {
+            System.out.println(it.next());
         }
     }
 }

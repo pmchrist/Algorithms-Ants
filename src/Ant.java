@@ -2,6 +2,7 @@ public class Ant {
     private int id;
     private int xCoordinate;
     private int yCoordinate;
+    private int zCoordinate;
     private int weight;
     private int[] weights;
 
@@ -9,6 +10,7 @@ public class Ant {
         this.id=id;
         this.xCoordinate=xCoordinate;
         this.yCoordinate=yCoordinate;
+        zCoordinate=xCoordinate*xCoordinate+yCoordinate*yCoordinate;
         this.weight=weight;
     }
 
@@ -16,10 +18,23 @@ public class Ant {
         this.id=id;
         this.xCoordinate=xCoordinate;
         this.yCoordinate=yCoordinate;
+        zCoordinate=xCoordinate*xCoordinate+yCoordinate*yCoordinate;
         this.weights = new int[5];
         for (int i=0; i<5; i++){
             this.weights[i]=weights[i];
         }
+    }
+
+    public int getxCoordinate() {
+        return xCoordinate;
+    }
+
+    public int getyCoordinate() {
+        return yCoordinate;
+    }
+
+    public int getzCoordinate() {
+        return zCoordinate;
     }
 
     @Override
