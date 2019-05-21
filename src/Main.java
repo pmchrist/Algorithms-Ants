@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Main {
 
@@ -45,12 +42,21 @@ public class Main {
         KruskalUnionFind MSTobject = new KruskalUnionFind(tempSet, Ants);
         ArrayList<GraphEdge> MSTgraph = MSTobject.getMSP();
 
-        System.out.println(MSTobject.getWeight());
-        //Right Output Formet with id Sorting
-        Iterator<GraphEdge> itt = MSTgraph.iterator();
-        while(itt.hasNext() ) {
-            System.out.println(itt.next());
-            //System.out.println(itt.next().getWeight());
+        int[][] antVertsID = new int[MSTgraph.size()][MSTgraph.size()];
+        Iterator<GraphEdge> it = MSTgraph.iterator();
+        int j=0;
+        while(it.hasNext() ) {
+            GraphEdge tempEdge = it.next();
+            antVertsID[j][0] = tempEdge.getPoint1().getId();
+            antVertsID[j][1] = tempEdge.getPoint2().getId();
+            j++;
         }
+        Arrays.sort(antVertsID, (a, b) -> Integer.compare(a[0], b[0]));
+
+        System.out.println(MSTobject.getWeight());
+        for (int i=0; i<j; i++){
+            System.out.println(antVertsID[i][0] + " " + antVertsID[i][1]);
+        }
+
     }
 }

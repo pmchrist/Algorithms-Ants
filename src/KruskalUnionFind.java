@@ -3,7 +3,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-//Implement Union and Find as it suppose to be
 
 public class KruskalUnionFind {
 
