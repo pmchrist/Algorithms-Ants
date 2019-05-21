@@ -8,37 +8,53 @@ import java.util.TreeSet;
 public class KruskalUnionFind {
 
     TreeSet<GraphEdge> antsEdgesOriginal;
-    HashSet<Ant> antsAdded;
+    ArrayList<Ant> antsVertOriginal;
     ArrayList<GraphEdge> minimalSpanningTree;
 
-    public KruskalUnionFind(TreeSet<GraphEdge> antsEdges){
+    public KruskalUnionFind(TreeSet<GraphEdge> antsEdges, ArrayList<Ant> antsVert){
         this.antsEdgesOriginal = antsEdges;
+        this.antsVertOriginal = antsVert;
         minimalSpanningTree = new ArrayList<>();
-        antsAdded = new HashSet<>();
     }
 
     public ArrayList<GraphEdge> getMSP(){
 
-        Iterator<GraphEdge> it = antsEdgesOriginal.descendingIterator();
 
+        Iterator<GraphEdge> it = antsEdgesOriginal.descendingIterator();
         GraphEdge tempEdge = it.next();
 
+        antsVertOriginal.get(tempEdge.getPoint2().getParentIdMST()-1).setParentIdMST(tempEdge.getPoint1().getParentIdMST());
         minimalSpanningTree.add(tempEdge);
-        antsAdded.add(tempEdge.getPoint1());
-        antsAdded.add(tempEdge.getPoint2());
 
         while(it.hasNext()) {
 
             tempEdge = it.next();
 
-            if (!(antsAdded.contains(tempEdge.getPoint1()) && antsAdded.contains(tempEdge.getPoint1()))){
+            if (!(findParent(tempEdge.getPoint1()) == findParent(tempEdge.getPoint2()))){
+                //Perform Union (Set Point2 parent to Point1 parent)
+                antsVertOriginal.get(tempEdge.getPoint2().getParentIdMST()-1).setParentIdMST(tempEdge.getPoint1().getParentIdMST());
+                //PushToTree
                 minimalSpanningTree.add(tempEdge);
-                antsAdded.add(tempEdge.getPoint1());
-                antsAdded.add(tempEdge.getPoint2());
             }
         }
 
         return minimalSpanningTree;
+    }
+
+    private int findParent(Ant vert){
+        Ant originalVert = vert;
+        while (vert.getId() != vert.getParentIdMST()){
+            vert = antsVertOriginal.get(vert.getParentIdMST()-1);
+        }
+        int parentGroupID = vert.getId();
+        int nextVertID;
+        //Path Compressing
+        while (originalVert.getId() != originalVert.getParentIdMST()){
+            nextVertID = originalVert.getParentIdMST()-1;
+            originalVert.setParentIdMST(parentGroupID);
+            originalVert = antsVertOriginal.get(nextVertID);
+        }
+        return parentGroupID;
     }
 
     public double getWeight(){

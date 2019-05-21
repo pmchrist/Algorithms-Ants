@@ -42,13 +42,15 @@ public class Main {
         DelaunayTriangulation temp = new DelaunayTriangulation();
         TreeSet<GraphEdge> tempSet = temp.getEdges(Ants);
 
-        KruskalUnionFind MSTobject = new KruskalUnionFind(tempSet);
+        KruskalUnionFind MSTobject = new KruskalUnionFind(tempSet, Ants);
         ArrayList<GraphEdge> MSTgraph = MSTobject.getMSP();
 
+        System.out.println(MSTobject.getWeight());
         //Right Output Formet with id Sorting
-        Iterator<GraphEdge> it = MSTgraph.iterator();
-        while(it.hasNext() ) {
-            System.out.println(it.next());
+        Iterator<GraphEdge> itt = MSTgraph.iterator();
+        while(itt.hasNext() ) {
+            System.out.println(itt.next());
+            //System.out.println(itt.next().getWeight());
         }
     }
 }

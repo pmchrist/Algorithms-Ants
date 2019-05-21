@@ -5,9 +5,11 @@ public class Ant {
     private int zCoordinate;
     private int weight;
     private int[] weights;
+    private int parentIdMST;
 
     public Ant(int id, int xCoordinate, int yCoordinate, int weight){
         this.id=id;
+        this.parentIdMST=id;
         this.xCoordinate=xCoordinate;
         this.yCoordinate=yCoordinate;
         zCoordinate=xCoordinate*xCoordinate+yCoordinate*yCoordinate;
@@ -16,6 +18,7 @@ public class Ant {
 
     public Ant(int id, int xCoordinate, int yCoordinate, int[] weights){
         this.id=id;
+        this.parentIdMST=id;
         this.xCoordinate=xCoordinate;
         this.yCoordinate=yCoordinate;
         zCoordinate=xCoordinate*xCoordinate+yCoordinate*yCoordinate;
@@ -27,6 +30,14 @@ public class Ant {
 
     public int getId() {
         return id;
+    }
+
+    public int getParentIdMST() {
+        return parentIdMST;
+    }
+
+    public void setParentIdMST(int parentIdMST) {
+        this.parentIdMST = parentIdMST;
     }
 
     public int getxCoordinate() {
