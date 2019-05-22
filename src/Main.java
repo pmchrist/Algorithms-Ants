@@ -39,6 +39,13 @@ public class Main {
         DelaunayTriangulation temp = new DelaunayTriangulation();
         TreeSet<GraphEdge> tempSet = temp.getEdges(Ants);
 
+
+        Iterator<GraphEdge> titty = tempSet.iterator();
+        while (titty.hasNext()){
+            System.out.println(titty.next());
+        }
+
+
         KruskalUnionFind MSTobject = new KruskalUnionFind(tempSet, Ants);
         ArrayList<GraphEdge> MSTgraph = MSTobject.getMSP();
 

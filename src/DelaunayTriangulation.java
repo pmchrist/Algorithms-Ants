@@ -7,7 +7,7 @@ public class DelaunayTriangulation{
         TreeSet<GraphEdge> result = new TreeSet<GraphEdge>();
 
         if(Ants.size() == 2){
-            result.add(new GraphEdge(Ants.get(0), Ants.get(1)));
+            result.add(new GraphEdge(Ants.get(1), Ants.get(0)));
             return result;
         }
 
@@ -45,10 +45,9 @@ public class DelaunayTriangulation{
                     if (!flag){
                         continue;
                     }
-                    result.add(new GraphEdge(Ants.get(i), Ants.get(j)));
-                    result.add(new GraphEdge(Ants.get(j), Ants.get(k)));
-                    result.add(new GraphEdge(Ants.get(k), Ants.get(i)));
-
+                    result.add(new GraphEdge(Ants.get(j), Ants.get(i)));
+                    result.add(new GraphEdge(Ants.get(k), Ants.get(j)));
+                    result.add(new GraphEdge(Ants.get(i), Ants.get(k)));
                 }
             }
         }
