@@ -7,12 +7,12 @@ public class Ant {
     private int[] weights;
     private int parentIdMST;
     private double pairWeightGS;
-    private int pairWeightIdGS;
+    private int pairIdGS;
 
     public Ant(int id, int xCoordinate, int yCoordinate, int weight){
         this.id=id;
         this.parentIdMST=id;
-        this.pairWeightIdGS=-1;
+        this.pairIdGS =-1;
         this.pairWeightGS=Double.MAX_VALUE;
         this.xCoordinate=xCoordinate;
         this.yCoordinate=yCoordinate;
@@ -23,7 +23,7 @@ public class Ant {
     public Ant(int id, int xCoordinate, int yCoordinate, int[] weights){
         this.id=id;
         this.parentIdMST=id;
-        this.pairWeightIdGS=-1;
+        this.pairIdGS =-1;
         this.pairWeightGS=Double.MAX_VALUE;
         this.xCoordinate=xCoordinate;
         this.yCoordinate=yCoordinate;
@@ -54,12 +54,12 @@ public class Ant {
         this.pairWeightGS = pairWeightGS;
     }
 
-    public int getPairWeightIdGS() {
-        return pairWeightIdGS;
+    public int getPairIdGS() {
+        return pairIdGS;
     }
 
-    public void setPairWeightIdGS(int pairWeightIdGS) {
-        this.pairWeightIdGS = pairWeightIdGS;
+    public void setPairIdGS(int pairIdGS) {
+        this.pairIdGS = pairIdGS;
     }
 
     public int getxCoordinate() {

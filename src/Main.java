@@ -46,6 +46,7 @@ public class Main {
         }
 
 
+        System.out.println("\n");
         KruskalUnionFind MSTobject = new KruskalUnionFind(tempSet, Ants);
         ArrayList<GraphEdge> MSTgraph = MSTobject.getMSP();
 
@@ -65,15 +66,13 @@ public class Main {
             System.out.println(antVertsID[i][0] + " " + antVertsID[i][1]);
         }
 
+
+        System.out.println("\n");
         GaleShapley GSobject = new GaleShapley(tempSet, Ants);
         GSobject.getAntsStablePairs();
 
-/*
-        Iterator<Ant> ass = Ants.iterator();
-        while (ass.hasNext()){
-            System.out.println(ass.next().getPairWeightIdGS());
+        for (int i=0; i<Ants.size(); i+=2){
+            System.out.println(i+1 + " " + Ants.get(i).getPairIdGS());
         }
-*/
-
     }
 }
