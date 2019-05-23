@@ -6,7 +6,6 @@ public class GaleShapley {
 
     TreeSet<GraphEdge> antsEdgesOriginal;
     ArrayList<Ant> antsVertOriginal;
-    ArrayList<GraphEdge> antsStablePairs;
 
     public GaleShapley(TreeSet<GraphEdge> antsEdges, ArrayList<Ant> antsVert){
         this.antsEdgesOriginal = antsEdges;
@@ -18,12 +17,22 @@ public class GaleShapley {
         int foundPairs = 0;
         Ant currentAntVert;
         GraphEdge currentAntEdge;
-        int currentAntID = 1;
+        int currentAntID = -1;
+        boolean flag = false;
 
-        while (foundPairs != antsVertOriginal.size()/2){
+        while (foundPairs < antsVertOriginal.size()/2){
+
+            flag = false;
+            System.out.println(foundPairs);
+
+            //If we have to restart
+            currentAntID+=2;
+            if (currentAntID > antsVertOriginal.size()) {
+                currentAntID = 1;
+            }
 
             currentAntVert = antsVertOriginal.get(currentAntID-1);
-            //Check if already got pair
+            //Checking if already got pair
             if (currentAntVert.getPairWeightIdGS() != -1){
                 continue;
             }
@@ -33,19 +42,34 @@ public class GaleShapley {
                 currentAntEdge = it.next();
                 if (currentAntEdge.getPoint1() == currentAntVert || currentAntEdge.getPoint2() == currentAntVert){
                     //Possible better pair
-                    if (currentAntEdge.getWeight() < currentAntVert.getPairWeightIdGS()){
+                    if (currentAntEdge.getWeight() <= currentAntVert.getPairWeightGS()){
                         //If Better pair for both
-                        if (currentAntEdge.getWeight() < currentAntEdge.getPoint1().getPairWeightGS() &&
-                                currentAntEdge.getWeight() < currentAntEdge.getPoint2().getPairWeightGS()){
+                        if (currentAntEdge.getWeight() <= currentAntEdge.getPoint1().getPairWeightGS() &&
+                                currentAntEdge.getWeight() <= currentAntEdge.getPoint2().getPairWeightGS()){
                             //Update Values
-                            //Set previous pairs to pair -1
-                            //Set pairs to ids in edge
+                            //Set previous pairs IDs to pairID -1
+                            if (currentAntEdge.getPoint1().getPairWeightIdGS() != -1){
+                                antsVertOriginal.get(currentAntEdge.getPoint1().getPairWeightIdGS()-1).setPairWeightIdGS(-1);
+                                foundPairs--;
+                            }
+                            if (currentAntEdge.getPoint2().getPairWeightIdGS() != -1){
+                                antsVertOriginal.get(currentAntEdge.getPoint2().getPairWeightIdGS()-1).setPairWeightIdGS(-1);
+                                foundPairs--;
+                            }
+                            //Set pairs IDs to ids in edge
+                            antsVertOriginal.get(currentAntEdge.getPoint1().getId()-1).setPairWeightIdGS(currentAntEdge.getPoint2().getId());
+                            antsVertOriginal.get(currentAntEdge.getPoint2().getId()-1).setPairWeightIdGS(currentAntEdge.getPoint1().getId());
+                            System.out.println(flag);
+                            flag = true;
                         }
                     }
                 }
-
             }
-            currentAntID += 2;
+            if (flag){
+                foundPairs++;
+                foundPairs++;
+            }
+            System.out.println(foundPairs);
         }
     }
 }

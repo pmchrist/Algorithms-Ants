@@ -7,7 +7,7 @@ public class Ant {
     private int[] weights;
     private int parentIdMST;
     private double pairWeightGS;
-    private double pairWeightIdGS;
+    private int pairWeightIdGS;
 
     public Ant(int id, int xCoordinate, int yCoordinate, int weight){
         this.id=id;
@@ -54,11 +54,11 @@ public class Ant {
         this.pairWeightGS = pairWeightGS;
     }
 
-    public double getPairWeightIdGS() {
+    public int getPairWeightIdGS() {
         return pairWeightIdGS;
     }
 
-    public void setPairWeightIdGS(double pairWeightIdGS) {
+    public void setPairWeightIdGS(int pairWeightIdGS) {
         this.pairWeightIdGS = pairWeightIdGS;
     }
 

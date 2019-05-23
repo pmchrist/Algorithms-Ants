@@ -65,5 +65,15 @@ public class Main {
             System.out.println(antVertsID[i][0] + " " + antVertsID[i][1]);
         }
 
+        GaleShapley GSobject = new GaleShapley(tempSet, Ants);
+        GSobject.getAntsStablePairs();
+
+/*
+        Iterator<Ant> ass = Ants.iterator();
+        while (ass.hasNext()){
+            System.out.println(ass.next().getPairWeightIdGS());
+        }
+*/
+
     }
 }
