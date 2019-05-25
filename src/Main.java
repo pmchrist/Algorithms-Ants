@@ -39,14 +39,6 @@ public class Main {
         DelaunayTriangulation temp = new DelaunayTriangulation();
         TreeSet<GraphEdge> tempSet = temp.getEdges(Ants);
 
-
-        Iterator<GraphEdge> titty = tempSet.iterator();
-        while (titty.hasNext()){
-            System.out.println(titty.next());
-        }
-
-
-        System.out.println("\n");
         KruskalUnionFind MSTobject = new KruskalUnionFind(tempSet, Ants);
         ArrayList<GraphEdge> MSTgraph = MSTobject.getMSP();
 
@@ -61,6 +53,7 @@ public class Main {
         }
         Arrays.sort(antVertsID, (a, b) -> Integer.compare(a[0], b[0]));
 
+
         System.out.println(MSTobject.getWeight());
         for (int i=0; i<j; i++){
             System.out.println(antVertsID[i][0] + " " + antVertsID[i][1]);
@@ -74,5 +67,18 @@ public class Main {
         for (int i=0; i<Ants.size(); i+=2){
             System.out.println(i+1 + " " + Ants.get(i).getPairIdGS());
         }
+
+
+        System.out.println("\n");
+        DynamicWeights weightsObject = new DynamicWeights(Ants);
+        weightsObject.calculateWeights();
+
+        for (int i=0; i<Ants.size(); i+=2){
+            if (Ants.get(i).getObjectWeight(0) == -1){
+                continue;
+            }
+            System.out.println(i+1 + " " + (i+2) + " " + Ants.get(i).getObjectWeight(0) + " " + Ants.get(i).getObjectWeight(1) +  " " + Ants.get(i).getObjectWeight(2) +  " " + Ants.get(i).getObjectWeight(3) +  " " + Ants.get(i).getObjectWeight(4));
+        }
+
     }
 }

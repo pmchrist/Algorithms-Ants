@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Ant {
     private int id;
     private int xCoordinate;
@@ -18,6 +20,10 @@ public class Ant {
         this.yCoordinate=yCoordinate;
         zCoordinate=xCoordinate*xCoordinate+yCoordinate*yCoordinate;
         this.weight=weight;
+        this.weights=new int[5];
+        for (int i=0; i<5; i++){
+            this.weights[i]=0;
+        }
     }
 
     public Ant(int id, int xCoordinate, int yCoordinate, int[] weights){
@@ -28,7 +34,8 @@ public class Ant {
         this.xCoordinate=xCoordinate;
         this.yCoordinate=yCoordinate;
         zCoordinate=xCoordinate*xCoordinate+yCoordinate*yCoordinate;
-        this.weights = new int[5];
+        this.weight=-1;
+        this.weights=new int[5];
         for (int i=0; i<5; i++){
             this.weights[i]=weights[i];
         }
@@ -74,6 +81,18 @@ public class Ant {
         return zCoordinate;
     }
 
+    public int getWeight() {
+        return weight;
+    }
+
+    public int getObjectWeight(int id){
+        return weights[id];
+    }
+
+    public void setObjectWeight(int id, int value){
+        weights[id]=value;
+    }
+
     @Override
     public boolean equals(Object other){
         Ant otherAnt = (Ant) other;
@@ -85,9 +104,14 @@ public class Ant {
 
     @Override
     public String toString(){
+
+        return ("W: " + weights[0] + " " + weights[1] +  " " + weights[2] +  " " + weights[3] +  " " + weights[4]);
+
+        /*
         if (id % 2 != 0)
             return ("id: " + id + ", X: " + xCoordinate + ", Y: " + yCoordinate + ", W: " + weight);
         else
             return ("id: " + id + ", X: " + xCoordinate + ", Y: " + yCoordinate + ", W: " + weights[0] + " " + weights[1] +  " " + weights[2] +  " " + weights[3] +  " " + weights[4]);
+        */
     }
 }
