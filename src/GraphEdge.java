@@ -1,7 +1,8 @@
-public class GraphEdge implements Comparable<GraphEdge>{
-    private Ant point1;
-    private Ant point2;
-    private double weight;
+
+class GraphEdge implements Comparable<GraphEdge>{
+    private final Ant point1;
+    private final Ant point2;
+    private final double weight;
 
     public GraphEdge (Ant point1, Ant point2){
         this.point1 = point1;
@@ -28,14 +29,6 @@ public class GraphEdge implements Comparable<GraphEdge>{
 
     @Override
     public int compareTo(GraphEdge other) {
-        if (other.getWeight() > weight){
-            return 1;
-        }else{
-            if (other.getWeight() == weight){
-                return 0;
-            }else{
-                return -1;
-            }
-        }
+        return Double.compare(other.getWeight(), weight);
     }
 }

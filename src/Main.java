@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class Main {
+class Main {
 
     public static void main(String[] args){
 
@@ -17,15 +17,15 @@ public class Main {
             while (currentLine != null) {
                 Scanner scanner = new Scanner(currentLine);
                 while (scanner.hasNext()) {
-                    if (scanner.hasNextInt()) {
+                    //if (scanner.hasNextInt()) {
                         currentInt = scanner.nextInt();
                         if (currentInt % 2 != 0){
-                            Ants.add(new Ant(currentInt, scanner.nextInt(), scanner.nextInt(), scanner.nextInt()));
+                            Ants.add(new Ant(currentInt, scanner.nextDouble(), scanner.nextDouble(), scanner.nextInt()));
                         }else {
-                            Ants.add(new Ant(currentInt, scanner.nextInt(), scanner.nextInt(),
+                            Ants.add(new Ant(currentInt, scanner.nextDouble(), scanner.nextDouble(),
                                     new int[]{scanner.nextInt(), scanner.nextInt(), scanner.nextInt(), scanner.nextInt(), scanner.nextInt()}));
                         }
-                    }
+                    //}
                 }
                 scanner.close();
                 // read next currentLine
@@ -51,7 +51,7 @@ public class Main {
             antVertsID[j][1] = tempEdge.getPoint2().getId();
             j++;
         }
-        Arrays.sort(antVertsID, (a, b) -> Integer.compare(a[0], b[0]));
+        Arrays.sort(antVertsID, Comparator.comparingInt(a -> a[0]));
 
 
         System.out.println(MSTobject.getWeight());

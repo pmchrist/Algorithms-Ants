@@ -1,14 +1,13 @@
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 
 
-public class KruskalUnionFind {
+class KruskalUnionFind {
 
-    TreeSet<GraphEdge> antsEdgesOriginal;
-    ArrayList<Ant> antsVertOriginal;
-    ArrayList<GraphEdge> minimalSpanningTree;
+    private final TreeSet<GraphEdge> antsEdgesOriginal;
+    private final ArrayList<Ant> antsVertOriginal;
+    private final ArrayList<GraphEdge> minimalSpanningTree;
 
     public KruskalUnionFind(TreeSet<GraphEdge> antsEdges, ArrayList<Ant> antsVert){
         this.antsEdgesOriginal = antsEdges;

@@ -1,17 +1,16 @@
-import java.util.Arrays;
 
 public class Ant {
-    private int id;
-    private int xCoordinate;
-    private int yCoordinate;
-    private int zCoordinate;
-    private int weight;
-    private int[] weights;
+    private final int id;
+    private final double xCoordinate;
+    private final double yCoordinate;
+    private final double zCoordinate;
+    private final int weight;
+    private final int[] weights;
     private int parentIdMST;
     private double pairWeightGS;
     private int pairIdGS;
 
-    public Ant(int id, int xCoordinate, int yCoordinate, int weight){
+    public Ant(int id, double xCoordinate, double yCoordinate, int weight){
         this.id=id;
         this.parentIdMST=id;
         this.pairIdGS =-1;
@@ -26,7 +25,7 @@ public class Ant {
         }
     }
 
-    public Ant(int id, int xCoordinate, int yCoordinate, int[] weights){
+    public Ant(int id, double xCoordinate, double yCoordinate, int[] weights){
         this.id=id;
         this.parentIdMST=id;
         this.pairIdGS =-1;
@@ -36,9 +35,7 @@ public class Ant {
         zCoordinate=xCoordinate*xCoordinate+yCoordinate*yCoordinate;
         this.weight=-1;
         this.weights=new int[5];
-        for (int i=0; i<5; i++){
-            this.weights[i]=weights[i];
-        }
+        System.arraycopy(weights, 0, this.weights, 0, 5);
     }
 
     public int getId() {
@@ -69,15 +66,15 @@ public class Ant {
         this.pairIdGS = pairIdGS;
     }
 
-    public int getxCoordinate() {
+    public double getxCoordinate() {
         return xCoordinate;
     }
 
-    public int getyCoordinate() {
+    public double getyCoordinate() {
         return yCoordinate;
     }
 
-    public int getzCoordinate() {
+    public double getzCoordinate() {
         return zCoordinate;
     }
 
@@ -95,23 +92,18 @@ public class Ant {
 
     @Override
     public boolean equals(Object other){
-        Ant otherAnt = (Ant) other;
-        if (this.xCoordinate == otherAnt.getxCoordinate() && this.yCoordinate == otherAnt.getyCoordinate())
-            return true;
-        else
+        if (!(other instanceof Ant)) {
             return false;
+        }
+        Ant otherAnt = (Ant) other;
+        return this.xCoordinate == otherAnt.getxCoordinate() && this.yCoordinate == otherAnt.getyCoordinate();
     }
 
     @Override
     public String toString(){
-
-        return ("W: " + weights[0] + " " + weights[1] +  " " + weights[2] +  " " + weights[3] +  " " + weights[4]);
-
-        /*
         if (id % 2 != 0)
             return ("id: " + id + ", X: " + xCoordinate + ", Y: " + yCoordinate + ", W: " + weight);
         else
             return ("id: " + id + ", X: " + xCoordinate + ", Y: " + yCoordinate + ", W: " + weights[0] + " " + weights[1] +  " " + weights[2] +  " " + weights[3] +  " " + weights[4]);
-        */
     }
 }

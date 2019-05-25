@@ -2,10 +2,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-public class GaleShapley {
+class GaleShapley {
 
-    TreeSet<GraphEdge> antsEdgesOriginal;
-    ArrayList<Ant> antsVertOriginal;
+    private final TreeSet<GraphEdge> antsEdgesOriginal;
+    private final ArrayList<Ant> antsVertOriginal;
 
     public GaleShapley(TreeSet<GraphEdge> antsEdges, ArrayList<Ant> antsVert){
         this.antsEdgesOriginal = antsEdges;
@@ -19,8 +19,6 @@ public class GaleShapley {
         GraphEdge currentAntEdge;
 
         while (foundPairs < antsVertOriginal.size()){
-
-            //System.out.println(foundPairs);
 
             for (int currentAntID=0; currentAntID<antsVertOriginal.size(); currentAntID += 2){
 
