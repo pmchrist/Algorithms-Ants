@@ -17,6 +17,8 @@ import java.util.*;
 class Main {
 
     public static void main(String[] args) throws IOException{
+        //Input Generator for Debugging
+        inputGenerator creator = new inputGenerator(500);
 
         //Array that contains all Ants
         ArrayList<Ant> Ants = new ArrayList<>();
@@ -49,14 +51,24 @@ class Main {
             e.printStackTrace();
         }
 
+        System.out.println("File read");
 
-        //For optimization purposes we will use Graph that contains not all the edges but only necessary ones (more in the class)
+        /*
+        //For optimization purposes we will use Graph that contains not all the edges but only necessary ones, it's created with help of the Delaunay Triangulation (more in the class)
         DelaunayTriangulation temp = new DelaunayTriangulation();
         TreeSet<GraphEdge> tempSet = temp.getEdges(Ants);
 
+        System.out.println("Done Triangulation");
+        */
+
+        //Creating Array with edges that connect all Ants
+        allEdges tempAll = new allEdges();
+        TreeSet<GraphEdge> tempAllSet = tempAll.getEdges(Ants);
+
+        System.out.println("Done Array");
 
         //Finding Minimum Spanning Tree
-        KruskalUnionFind MSTobject = new KruskalUnionFind(tempSet, Ants);
+        KruskalUnionFind MSTobject = new KruskalUnionFind(tempAllSet, Ants);
         ArrayList<GraphEdge> MSTgraph = MSTobject.getMSP();
 
         //Formatting Output for A part. It is stored in temporary array, that is sorted by ids of Ants
@@ -86,9 +98,16 @@ class Main {
         writer.flush();
         buffer.flush();
 
+        System.out.println("Part A done");
+
+        /*
+        //Finding Ant Pairs
+        GaleShapleyProposeToAll GSobject = new GaleShapleyProposeToAll(tempAllSet, Ants);
+        GSobject.getAntsStablePairs();
+        */
 
         //Finding Ant Pairs
-        GaleShapley GSobject = new GaleShapley(tempSet, Ants);
+        GaleShapleyArrays GSobject = new GaleShapleyArrays(tempAllSet, Ants);
         GSobject.getAntsStablePairs();
 
         //Writing the B part to a file
@@ -100,6 +119,8 @@ class Main {
         }
         writer.flush();
         buffer.flush();
+
+        System.out.println("Part B done");
 
 
         //Finding optimal fillings for Ants
@@ -121,5 +142,7 @@ class Main {
         buffer.flush();
         writer.close();
         buffer.close();
+
+        System.out.println("Part C done");
     }
 }

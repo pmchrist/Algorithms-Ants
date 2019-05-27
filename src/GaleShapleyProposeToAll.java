@@ -15,7 +15,7 @@ import java.util.TreeSet;
  * This class finds solution to the Stable Marriage Problem (Gale Shapley Algorithm)
  *
  */
-class GaleShapley {
+class GaleShapleyProposeToAll {
 
     //Setting pointers to the original values
     private final TreeSet<GraphEdge> antsEdgesOriginal;
@@ -28,7 +28,7 @@ class GaleShapley {
      * @param antsEdges Graph in which we will search for the best mates (based on weight of edges)
      * @param antsVert original Ants (Points of the Graph)
      */
-    public GaleShapley(TreeSet<GraphEdge> antsEdges, ArrayList<Ant> antsVert){
+    public GaleShapleyProposeToAll(TreeSet<GraphEdge> antsEdges, ArrayList<Ant> antsVert){
         this.antsEdgesOriginal = antsEdges;
         this.antsVertOriginal = antsVert;
     }
@@ -46,21 +46,25 @@ class GaleShapley {
         GraphEdge currentAntEdge;
 
         //Until we find pairs for all Ants we won't stop
-        while (foundPairs < antsVertOriginal.size()){
+        while (foundPairs < antsVertOriginal.size()/2){
             //We will look for mates for Red Ants throw group of Black Ants
             for (int currentAntID=0; currentAntID<antsVertOriginal.size(); currentAntID += 2){
+                System.out.println(foundPairs);
                 //Setting Ant for checking
                 currentAntVert = antsVertOriginal.get(currentAntID);
                 //Checking if already got pair, then pass
                 if (currentAntVert.getPairIdGS() != -1){
+                    System.out.println("YAS");
                     continue;
                 }
                 //Searching for a mate throw all Edges in Graph. Because our Ants must be connected to form a pair
                 Iterator<GraphEdge> it = antsEdgesOriginal.descendingIterator();
                 while (it.hasNext()){
                     currentAntEdge = it.next();
+                    //System.out.println(currentAntEdge);
                     //If our point is in edge
                     if (currentAntEdge.getPoint1() == currentAntVert || currentAntEdge.getPoint2() == currentAntVert){
+                        //System.out.println(currentAntEdge);
                         //Possible better pair. This edge connects Ants of different color and has lesser weight then current pair
                         if (currentAntEdge.getWeight() < currentAntVert.getPairWeightGS() &&
                             currentAntEdge.getPoint1().getId() % 2 != currentAntEdge.getPoint2().getId() % 2){
@@ -80,11 +84,12 @@ class GaleShapley {
                                     foundPairs--;
                                 }
                                 //Set new pairs IDs to ids in edge and update current pair weight. Update pairs found amount
-                                antsVertOriginal.get(currentAntEdge.getPoint1().getId()-1).setPairIdGS(currentAntEdge.getPoint2().getId());
-                                antsVertOriginal.get(currentAntEdge.getPoint1().getId()-1).setPairWeightGS(currentAntEdge.getWeight());
-                                antsVertOriginal.get(currentAntEdge.getPoint2().getId()-1).setPairIdGS(currentAntEdge.getPoint1().getId());
-                                antsVertOriginal.get(currentAntEdge.getPoint2().getId()-1).setPairWeightGS(currentAntEdge.getWeight());
-                                foundPairs++;
+                                int temp1 = currentAntEdge.getPoint1().getId();
+                                int temp2 = currentAntEdge.getPoint2().getId();
+                                antsVertOriginal.get(temp1-1).setPairIdGS(temp2);
+                                antsVertOriginal.get(temp1-1).setPairWeightGS(currentAntEdge.getWeight());
+                                antsVertOriginal.get(temp2-1).setPairIdGS(temp1);
+                                antsVertOriginal.get(temp2-1).setPairWeightGS(currentAntEdge.getWeight());
                                 foundPairs++;
                             }
                         }
