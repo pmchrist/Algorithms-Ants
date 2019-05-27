@@ -1,9 +1,9 @@
-/**
- * Christos Perchanidis
- * AEM: 3194
- * pmchrist@csd.auth.gr
- * Aristotle University of Thessaloniki
- * May 2019
+/*
+  Christos Perchanidis
+  AEM: 3194
+  pmchrist@csd.auth.gr
+  Aristotle University of Thessaloniki
+  May 2019
  */
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ class DynamicWeights{
 
         //For each Ant
         for (int i=0; i<antsOriginal.size();){
-            //Because Ants pairs go just in a row, Ant-Target (Red with basker) is a first one and Ant-Weights (Black with seeds) is a second one.
+            //Because Ants pairs go just in a row, Ant-Target (Red with basket) is a first one and Ant-Weights (Black with seeds) is a second one.
             Ant currentAntTarget = antsOriginal.get(i++);
             Ant currentAntWeights = antsOriginal.get(i++);
 

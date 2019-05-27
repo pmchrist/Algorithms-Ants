@@ -1,13 +1,4 @@
 /**
- * Christos Perchanidis
- * AEM: 3194
- * pmchrist@csd.auth.gr
- * Aristotle University of Thessaloniki
- * May 2019
- */
-
-
-/**
  *
  * Class that holds all needed information about an Ant
  * (it could be optimized with children classes, but this is not a point of an assignment)

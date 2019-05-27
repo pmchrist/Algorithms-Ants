@@ -1,9 +1,9 @@
-/**
- * Christos Perchanidis
- * AEM: 3194
- * pmchrist@csd.auth.gr
- * Aristotle University of Thessaloniki
- * May 2019
+/*
+  Christos Perchanidis
+  AEM: 3194
+  pmchrist@csd.auth.gr
+  Aristotle University of Thessaloniki
+  May 2019
  */
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ class DelaunayTriangulation{
      * @param Ants set of points to triangulate
      * @return TreeSet of edges in a graph of triangulated points
      */
-    public TreeSet getEdges(ArrayList<Ant> Ants){
+    public TreeSet<GraphEdge> getEdges(ArrayList<Ant> Ants){
         //We need edges sorted, therefore using TreeSet
         TreeSet<GraphEdge> result = new TreeSet<>();
 

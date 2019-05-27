@@ -1,9 +1,9 @@
-/**
- * Christos Perchanidis
- * AEM: 3194
- * pmchrist@csd.auth.gr
- * Aristotle University of Thessaloniki
- * May 2019
+/*
+  Christos Perchanidis
+  AEM: 3194
+  pmchrist@csd.auth.gr
+  Aristotle University of Thessaloniki
+  May 2019
  */
 
 import java.io.*;
