@@ -36,7 +36,8 @@ class Main {
             int currentInt;
             while (currentLine != null) {
                 Scanner scanner = new Scanner(currentLine);
-                scanner.useLocale(Locale.US);
+                //Input Generator creates input with US Locale
+                //scanner.useLocale(Locale.US);
                 while (scanner.hasNext()) {
                     currentInt = scanner.nextInt();
                     if (currentInt % 2 != 0){
