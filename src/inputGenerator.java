@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
 
+/**
+ *
+ * Just generates random formatted input for debugging
+ *
+ */
 public class inputGenerator {
 
     public inputGenerator(int ants) throws IOException {
@@ -20,6 +25,7 @@ public class inputGenerator {
             }
             printWriter.println("");
         }
+
         printWriter.flush();
         printWriter.close();
         fileWriter.close();

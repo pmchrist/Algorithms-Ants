@@ -38,7 +38,7 @@ class GraphEdge implements Comparable<GraphEdge>{
     //Compares Edges based on their weights
     @Override
     public int compareTo(GraphEdge other) {
-        return Double.compare(other.getWeight(), weight);
+        return Double.compare(weight, other.getWeight());
     }
 
     //Standard Getters

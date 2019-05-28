@@ -11,8 +11,6 @@ public class Ant {
     private final double xCoordinate;
     //Ant's Y Coordinate
     private final double yCoordinate;
-    //Ant's temp coordinate for the Delaunay Triangulation (more in the class description)
-    private final double zCoordinate;
     //Ant's target weight (how much it can hold in a basket)
     private final int weight;
     //Ant's seeds weights (for red ones it shows how many seeds of each type it holds, for black ones it holds weights of each seed type)
@@ -46,8 +44,6 @@ public class Ant {
         this.xCoordinate=xCoordinate;
         //Setting Y Coordinate
         this.yCoordinate=yCoordinate;
-        //Counting additional coordinate for a Delaunay Triangulation
-        this.zCoordinate=xCoordinate*xCoordinate+yCoordinate*yCoordinate;
         //Setting basket size to a given one
         this.weight=weight;
         //Setting seeds weight to 0 (because we don't know the values yet)
@@ -73,14 +69,12 @@ public class Ant {
         this.parentIdMST=id;
         //Setting pair id for Gale Shapley to -1 (because Ant has no mate by default)
         this.pairIdGS =-1;
-        //Setting pair weight for Gale Shapley to MAΧ (because we need to compare it with new values and find minimal one)
+        //Setting pair weight for Gale Shapley to MAΧ (because we need to compare it with new values and find minimal one). Used only in Gale-Shapley Algorithm memory optimized. GaleShapleyProposesToAll
         this.pairWeightGS=Double.MAX_VALUE;
         //Setting X Coordinate
         this.xCoordinate=xCoordinate;
         //Setting Y Coordinate
         this.yCoordinate=yCoordinate;
-        //Counting additional coordinate for a Delaunay Triangulation
-        this.zCoordinate=xCoordinate*xCoordinate+yCoordinate*yCoordinate;
         //Black Ants don't have target basket
         this.weight=-1;
         //Setting seeds weights to the given ones
@@ -88,14 +82,14 @@ public class Ant {
         System.arraycopy(weights, 0, this.weights, 0, 5);
     }
 
-    //This method checks if Ants are the same, based on their coordinates
+    //This method checks if Ants are the same, based on their ids
     @Override
     public boolean equals(Object other){
         if (!(other instanceof Ant)) {
             return false;
         }
         Ant otherAnt = (Ant) other;
-        return this.xCoordinate == otherAnt.getxCoordinate() && this.yCoordinate == otherAnt.getyCoordinate();
+        return this.id == otherAnt.getId() && this.id == otherAnt.getId();
     }
 
     //This method was used for debugging purposes
@@ -144,8 +138,9 @@ public class Ant {
         return yCoordinate;
     }
 
+    //Counting additional coordinate for a Delaunay Triangulation
     public double getzCoordinate() {
-        return zCoordinate;
+        return xCoordinate*xCoordinate+yCoordinate*yCoordinate;
     }
 
     public int getWeight() {

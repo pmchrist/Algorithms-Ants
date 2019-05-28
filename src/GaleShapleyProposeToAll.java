@@ -12,7 +12,9 @@ import java.util.TreeSet;
 
 /**
  *
- * This class finds solution to the Stable Marriage Problem (Gale Shapley Algorithm)
+ * This class finds solution to the Stable Marriage Problem (Gale Shapley Algorithm kinda)
+ * It passes all possible pairs for each Ant and finds the stable pair for him (searches for a new one only if Black Ant broke up with a Red one)
+ * Uses lesser memory though
  *
  */
 class GaleShapleyProposeToAll {
@@ -49,47 +51,42 @@ class GaleShapleyProposeToAll {
         while (foundPairs < antsVertOriginal.size()/2){
             //We will look for mates for Red Ants throw group of Black Ants
             for (int currentAntID=0; currentAntID<antsVertOriginal.size(); currentAntID += 2){
-                System.out.println(foundPairs);
                 //Setting Ant for checking
                 currentAntVert = antsVertOriginal.get(currentAntID);
                 //Checking if already got pair, then pass
                 if (currentAntVert.getPairIdGS() != -1){
-                    System.out.println("YAS");
                     continue;
                 }
                 //Searching for a mate throw all Edges in Graph. Because our Ants must be connected to form a pair
-                Iterator<GraphEdge> it = antsEdgesOriginal.descendingIterator();
-                while (it.hasNext()){
-                    currentAntEdge = it.next();
-                    //System.out.println(currentAntEdge);
+                for (GraphEdge graphEdge : antsEdgesOriginal) {
+                    currentAntEdge = graphEdge;
                     //If our point is in edge
-                    if (currentAntEdge.getPoint1() == currentAntVert || currentAntEdge.getPoint2() == currentAntVert){
-                        //System.out.println(currentAntEdge);
+                    if (currentAntEdge.getPoint1() == currentAntVert || currentAntEdge.getPoint2() == currentAntVert) {
                         //Possible better pair. This edge connects Ants of different color and has lesser weight then current pair
                         if (currentAntEdge.getWeight() < currentAntVert.getPairWeightGS() &&
-                            currentAntEdge.getPoint1().getId() % 2 != currentAntEdge.getPoint2().getId() % 2){
+                                currentAntEdge.getPoint1().getId() % 2 != currentAntEdge.getPoint2().getId() % 2) {
                             //If this new pair is better for both both
                             if (currentAntEdge.getWeight() < currentAntEdge.getPoint1().getPairWeightGS() &&
-                                    currentAntEdge.getWeight() < currentAntEdge.getPoint2().getPairWeightGS()){
+                                    currentAntEdge.getWeight() < currentAntEdge.getPoint2().getPairWeightGS()) {
                                 //Update Values
                                 //Set previous pairs IDs to pairID -1 (not existent). Update pairs found amount
-                                if (currentAntEdge.getPoint1().getPairIdGS() != -1){
-                                    antsVertOriginal.get(currentAntEdge.getPoint1().getPairIdGS()-1).setPairIdGS(-1);
-                                    antsVertOriginal.get(currentAntEdge.getPoint1().getPairIdGS()-1).setPairWeightGS(Double.MAX_VALUE);
+                                if (currentAntEdge.getPoint1().getPairIdGS() != -1) {
+                                    antsVertOriginal.get(currentAntEdge.getPoint1().getPairIdGS() - 1).setPairIdGS(-1);
+                                    antsVertOriginal.get(currentAntEdge.getPoint1().getPairIdGS() - 1).setPairWeightGS(Double.MAX_VALUE);
                                     foundPairs--;
                                 }
-                                if (currentAntEdge.getPoint2().getPairIdGS() != -1){
-                                    antsVertOriginal.get(currentAntEdge.getPoint2().getPairIdGS()-1).setPairIdGS(-1);
-                                    antsVertOriginal.get(currentAntEdge.getPoint2().getPairIdGS()-1).setPairWeightGS(Double.MAX_VALUE);
+                                if (currentAntEdge.getPoint2().getPairIdGS() != -1) {
+                                    antsVertOriginal.get(currentAntEdge.getPoint2().getPairIdGS() - 1).setPairIdGS(-1);
+                                    antsVertOriginal.get(currentAntEdge.getPoint2().getPairIdGS() - 1).setPairWeightGS(Double.MAX_VALUE);
                                     foundPairs--;
                                 }
                                 //Set new pairs IDs to ids in edge and update current pair weight. Update pairs found amount
                                 int temp1 = currentAntEdge.getPoint1().getId();
                                 int temp2 = currentAntEdge.getPoint2().getId();
-                                antsVertOriginal.get(temp1-1).setPairIdGS(temp2);
-                                antsVertOriginal.get(temp1-1).setPairWeightGS(currentAntEdge.getWeight());
-                                antsVertOriginal.get(temp2-1).setPairIdGS(temp1);
-                                antsVertOriginal.get(temp2-1).setPairWeightGS(currentAntEdge.getWeight());
+                                antsVertOriginal.get(temp1 - 1).setPairIdGS(temp2);
+                                antsVertOriginal.get(temp1 - 1).setPairWeightGS(currentAntEdge.getWeight());
+                                antsVertOriginal.get(temp2 - 1).setPairIdGS(temp1);
+                                antsVertOriginal.get(temp2 - 1).setPairWeightGS(currentAntEdge.getWeight());
                                 foundPairs++;
                             }
                         }

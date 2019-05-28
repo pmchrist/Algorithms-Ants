@@ -46,7 +46,7 @@ class KruskalUnionFind {
     public ArrayList<GraphEdge> getMSP(){
 
         //Reading first edge into Iterator
-        Iterator<GraphEdge> it = antsEdgesOriginal.descendingIterator();
+        Iterator<GraphEdge> it = antsEdgesOriginal.iterator();
         GraphEdge tempEdge = it.next();
         //Combining first edge's Ants(points) to a set(Perform Union (Set Point2 parent to Point1 parent))
         antsVertOriginal.get(tempEdge.getPoint2().getParentIdMST()-1).setParentIdMST(tempEdge.getPoint1().getParentIdMST());

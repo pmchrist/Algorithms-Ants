@@ -6,15 +6,14 @@
   May 2019
  */
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  *
  * This class finds solution to the Stable Marriage Problem (Gale Shapley Algorithm)
  *
  */
+
 class GaleShapleyArrays {
 
     //Setting pointers to the original values
@@ -22,75 +21,113 @@ class GaleShapleyArrays {
     private final ArrayList<Ant> antsVertOriginal;
 
     /**
-     *
      * Constructor
      *
      * @param antsEdges Graph in which we will search for the best mates (based on weight of edges)
-     * @param antsVert original Ants (Points of the Graph)
+     * @param antsVert  original Ants (Points of the Graph)
      */
-    public GaleShapleyArrays(TreeSet<GraphEdge> antsEdges, ArrayList<Ant> antsVert){
+    public GaleShapleyArrays(TreeSet<GraphEdge> antsEdges, ArrayList<Ant> antsVert) {
         this.antsEdgesOriginal = antsEdges;
         this.antsVertOriginal = antsVert;
     }
 
     /**
-     *
      * Finds stable pairs
-     *
      */
     public void getAntsStablePairs() {
 
-        //Setting start values
-        int foundPairs = 0;
-        Ant currentAntVert;
-        GraphEdge currentAntEdge;
+        //Reference size for all created arrays
+        int size = antsVertOriginal.size();
 
-        //Until we find pairs for all Ants we won't stop
-        while (foundPairs < antsVertOriginal.size()/2){
-            //We will look for mates for Red Ants throw group of Black Ants
-            for (int currentAntID=0; currentAntID<antsVertOriginal.size(); currentAntID += 2){
-                System.out.println(foundPairs);
-                //Setting Ant for checking
-                currentAntVert = antsVertOriginal.get(currentAntID);
-                //Checking if already got pair, then pass
-                if (currentAntVert.getPairIdGS() != -1){
-                    System.out.println("YAS");
+        //Setting pair preferences. We will hold information about preferences of an each Ant in an sorted array
+        //Because we already have all edges sorted by their weight (distance between Ants). We will first save preferences as an array of edges. No need for sorting again
+        ArrayList<ArrayList<GraphEdge>> pairsEdgeTemp = new ArrayList<>(size);
+        GraphEdge currentAntEdge;
+        //Creating array sorted by preference for each Ant
+        for (int i = 0; i < size; i++) {
+            //Searching for possible mates throw all Edges in Graph. We must find only suitable edges
+            //Initializing ant's preference list
+            pairsEdgeTemp.add(new ArrayList<>(size));
+            //Cycling all possible pairs
+            for (GraphEdge graphEdge : antsEdgesOriginal) {
+                currentAntEdge = graphEdge;
+                //If our Ant is in the edge and the edge is between Red and Black one, add the edge
+                if ((currentAntEdge.getPoint1().getId() == (i + 1) || currentAntEdge.getPoint2().getId() == (i + 1)) &&
+                        currentAntEdge.getPoint1().getId() % 2 != currentAntEdge.getPoint2().getId() % 2) {
+                    pairsEdgeTemp.get(i).add(currentAntEdge);
+                }
+            }
+        }
+
+        //Now we need to extract information from Edges into 2d array of Ants. For easier access
+        Ant[][] pairs = new Ant[size][size];
+        for (int i = 0; i < size; i++) {
+            //We just need to loop throw all sorted edges and save right Ants (edge points)
+            int j = 0;
+            for (GraphEdge graphEdge : pairsEdgeTemp.get(i)) {
+                currentAntEdge = graphEdge;
+                //We don't know if Target Ant is a point1 or point2 in edge, therefore to save correct pair into array we must check who is who
+                if (currentAntEdge.getPoint1().getId() == (i + 1)) {
+                    pairs[i][j] = pairsEdgeTemp.get(i).get(j).getPoint2();
+                } else {
+                    pairs[i][j] = pairsEdgeTemp.get(i).get(j).getPoint1();
+                }
+                j++;
+            }
+        }
+
+        //We must keep information about current mate of an Ant. To check if we find a better one
+        //At start everyone got the worst possible mate
+        int[] pairsPivots = new int[size];
+        for (int i=0; i<size; i++){
+            pairsPivots[i] = Integer.MAX_VALUE;
+        }
+
+        //Let's the dance begin. They will ask each other to make a pair, until there is no Red Ant who didn't have best possible stable pair
+        //Loop will finish when no one can make a new proposal
+        boolean haveBeenMadeProposal = true;
+        while (haveBeenMadeProposal) {
+            haveBeenMadeProposal = false;
+            for (int i = 0; i < size; i += 2) {
+                haveBeenMadeProposal = false;
+                //If Ant got pair, he doesn't need a new one. Because it is already the best possible stable one
+                if (antsVertOriginal.get(i).getPairIdGS() != -1){
                     continue;
                 }
-                //Searching for a mate throw all Edges in Graph. Because our Ants must be connected to form a pair
-                Iterator<GraphEdge> it = antsEdgesOriginal.descendingIterator();
-                while (it.hasNext()){
-                    currentAntEdge = it.next();
-                    //System.out.println(currentAntEdge);
-                    //If our point is in edge
-                    if (currentAntEdge.getPoint1() == currentAntVert || currentAntEdge.getPoint2() == currentAntVert){
-                        //System.out.println(currentAntEdge);
-                        //Possible better pair. This edge connects Ants of different color and has lesser weight then current pair
-                        if (currentAntEdge.getWeight() < currentAntVert.getPairWeightGS() &&
-                            currentAntEdge.getPoint1().getId() % 2 != currentAntEdge.getPoint2().getId() % 2){
-                            //If this new pair is better for both both
-                            if (currentAntEdge.getWeight() < currentAntEdge.getPoint1().getPairWeightGS() &&
-                                    currentAntEdge.getWeight() < currentAntEdge.getPoint2().getPairWeightGS()){
-                                //Update Values
-                                //Set previous pairs IDs to pairID -1 (not existent). Update pairs found amount
-                                if (currentAntEdge.getPoint1().getPairIdGS() != -1){
-                                    antsVertOriginal.get(currentAntEdge.getPoint1().getPairIdGS()-1).setPairIdGS(-1);
-                                    antsVertOriginal.get(currentAntEdge.getPoint1().getPairIdGS()-1).setPairWeightGS(Double.MAX_VALUE);
-                                    foundPairs--;
+                //Let's find a new pair. We need to loop throw Ant's preference list
+                for (int j = 0; j < size / 2; j++) {
+                    //No need to continue loop if we find a better pair
+                    if (haveBeenMadeProposal) break;
+                    //Check if it is a better pair
+                    Ant active = antsVertOriginal.get(i);
+                    Ant passive = pairs[i][j];
+                    //Checking array of preferences of a passive
+                    for (int k = 0; k < size / 2; k++) {
+                        //Found active in an array of preferences of passive
+                        if (pairs[passive.getId() - 1][k].equals(active)) {
+                            //if pair is not better
+                            if (pairsPivots[passive.getId() - 1] < k) {
+                                break;
+                            } else {
+                                //If pair is better we need to update values
+                                //BreakUp with previous partners if any (reset their preference pivot and set pair id to -1)
+                                if (active.getPairIdGS() != -1) {
+                                    active.setPairIdGS(-1);
+                                    pairsPivots[active.getId()-1] = Integer.MAX_VALUE;
                                 }
-                                if (currentAntEdge.getPoint2().getPairIdGS() != -1){
-                                    antsVertOriginal.get(currentAntEdge.getPoint2().getPairIdGS()-1).setPairIdGS(-1);
-                                    antsVertOriginal.get(currentAntEdge.getPoint2().getPairIdGS()-1).setPairWeightGS(Double.MAX_VALUE);
-                                    foundPairs--;
+                                if (passive.getPairIdGS() != -1) {
+                                    passive.setPairIdGS(-1);
+                                    pairsPivots[passive.getId()-1] = Integer.MAX_VALUE;
                                 }
-                                //Set new pairs IDs to ids in edge and update current pair weight. Update pairs found amount
-                                int temp1 = currentAntEdge.getPoint1().getId();
-                                int temp2 = currentAntEdge.getPoint2().getId();
-                                antsVertOriginal.get(temp1-1).setPairIdGS(temp2);
-                                antsVertOriginal.get(temp1-1).setPairWeightGS(currentAntEdge.getWeight());
-                                antsVertOriginal.get(temp2-1).setPairIdGS(temp1);
-                                antsVertOriginal.get(temp2-1).setPairWeightGS(currentAntEdge.getWeight());
-                                foundPairs++;
+                                //Update active's current pair preference pivot and final mate id
+                                active.setPairIdGS(passive.getId());
+                                pairsPivots[active.getId()-1] = j;
+                                //Update passive's current pair preference pivot and final mate id
+                                passive.setPairIdGS(active.getId());
+                                pairsPivots[passive.getId()-1] = k;
+                                //We made an update so we can exit from some loops
+                                haveBeenMadeProposal = true;
+                                break;
                             }
                         }
                     }
@@ -99,3 +136,4 @@ class GaleShapleyArrays {
         }
     }
 }
+

@@ -26,9 +26,8 @@ class allEdges{
     public TreeSet<GraphEdge> getEdges(ArrayList<Ant> Ants){
         //We need edges sorted, therefore using TreeSet
         TreeSet<GraphEdge> result = new TreeSet<>();
-
+        //Add all possible Edges between all Ants
         for (int i=0; i<Ants.size(); i++){
-            System.out.println(i);
             for (int j=i+1; j<Ants.size(); j++){
                 result.add(new GraphEdge(Ants.get(i), Ants.get(j)));
             }
